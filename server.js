@@ -19,8 +19,10 @@ app.post("/pdf", async (req, res) => {
   const pdf = await page.pdf();
   await browser.close();
 
-  res.contentType("application/pdf");
-  res.send(pdf);
+  const binaryData = Buffer.from(pdf, "binary");
+  const base64String = binaryData.toString("base64");
+
+  res.send(base64String);
 });
 
 app.listen(port, () => {
